@@ -893,6 +893,7 @@ const AP_Param::GroupInfo AP_OSD_Screen::var_info[] = {
     // @Description: Vertical position on screen
     // @Range: 0 21
     AP_SUBGROUPINFO(callsign, "CALLSIGN", 53, AP_OSD_Screen, AP_OSD_Setting),
+    AP_SUBGROUPINFO(iff, "IFF", 53, AP_OSD_Screen, AP_OSD_Setting),
 #endif
 
     // @Param: CURRENT2_EN
@@ -2483,6 +2484,29 @@ void AP_OSD_Screen::draw_callsign(uint8_t x, uint8_t y)
 #endif
 }
 
+void AP_OSD_Screen::draw_iff(uint8_t x, uint8_t y)
+{
+#if AP_OSD_CALLSIGN_FROM_SD_ENABLED
+    if (!iff_data.load_attempted) {
+        iff_data.load_attempted = true;
+        FileData *fd = AP::FS().load_file("iff.txt");
+        if (fd != nullptr) {
+            uint32_t len = fd->length;
+            // trim off whitespace
+            while (len > 0 && isspace(fd->data[len-1])) {
+                len--;
+            }
+            callsign_data.str = strndup((const char *)fd->data, len);
+            delete fd;
+        }
+    }
+    if (callsign_data.str != nullptr) {
+        backend->write(x, y, false, "%s", callsign_data.str);
+    }
+#endif
+}
+
+
 void AP_OSD_Screen::draw_current2(uint8_t x, uint8_t y)
 {
     draw_current(1, x, y);
@@ -2640,6 +2664,7 @@ void AP_OSD_Screen::draw(void)
     DRAW_SETTING(climbeff);
     DRAW_SETTING(eff);
     DRAW_SETTING(callsign);
+    DRAW_SETTING(iff);
     DRAW_SETTING(current2);
 
 #if AP_OSD_EXTENDED_LNK_STATS
