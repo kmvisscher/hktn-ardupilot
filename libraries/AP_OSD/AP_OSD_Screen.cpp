@@ -2511,12 +2511,12 @@ void AP_OSD_Screen::draw_iff(uint8_t x, uint8_t y)
             while (len > 0 && isspace(fd->data[len-1])) {
                 len--;
             }
-            callsign_data.str = strndup((const char *)fd->data, len);
+            iff_data.str = strndup((const char *)fd->data, len);
             delete fd;
         }
     }
-    if (callsign_data.str != nullptr) {
-        backend->write(x, y, false, "%s", callsign_data.str);
+    if (iff_data.str != nullptr) {
+        backend->write(x, y, false, "%s", iff_data.str);
     }
 #endif
 }
