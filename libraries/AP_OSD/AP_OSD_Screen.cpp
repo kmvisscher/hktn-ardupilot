@@ -893,6 +893,21 @@ const AP_Param::GroupInfo AP_OSD_Screen::var_info[] = {
     // @Description: Vertical position on screen
     // @Range: 0 21
     AP_SUBGROUPINFO(callsign, "CALLSIGN", 53, AP_OSD_Screen, AP_OSD_Setting),
+
+    // @Param: IFF_EN
+    // @DisplayName: IFF_EN
+    // @Description: Displays iff from iff.txt on microSD card
+    // @Values: 0:Disabled,1:Enabled
+
+    // @Param: IFF_X
+    // @DisplayName: IFF_X
+    // @Description: Horizontal position on screen
+    // @Range: 0 59
+
+    // @Param: IFF_Y
+    // @DisplayName: IFF_Y
+    // @Description: Vertical position on screen
+    // @Range: 0 21
     AP_SUBGROUPINFO(iff, "IFF", 53, AP_OSD_Screen, AP_OSD_Setting),
 #endif
 
